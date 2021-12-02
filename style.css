@@ -1,0 +1,7 @@
+@import "./wacca/style.css";
+
+body{
+    margin: 0;
+    padding: 0;
+    position: relative;
+}
