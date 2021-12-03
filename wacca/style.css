@@ -14,7 +14,7 @@ div.main {
 .main .bg {
     position: absolute;
     overflow: hidden;
-    background-color: ivory;
+    background-color: #663399;
     width: 300px;
     height: 300px;
     border-radius: 50%;
@@ -50,7 +50,7 @@ div.main {
     bottom: 0;
     left: -7px;
     right: 0;
-    background-color: purple;
+    background-color: #800080B8;
     font-weight: bolder;
     color: #fff;
     width: calc(100% - 1rem);
@@ -65,7 +65,7 @@ div.main {
 }
 
 .main .gph {
-    /* z-index: 4;*/
+    z-index: 4;
 }
 
 .main .btns {

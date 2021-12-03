@@ -53,12 +53,12 @@ const waccaModule = (function() {
    * @param {string} color color string or hex vaule  
    * @param {*} lw linewidth 
    */
-  wacca.prototype.drawPbar = (ps, color, lw) => {
+  wacca.prototype.drawPbar = function(tele,ps, color, lw) {
     ps = ps ? ps : 0;
     color = color ? color : '#7cfc00'; //lime color
     lw = lw ? lw : 15;
 
-    this.drawCircle(this.main.displays[3], 0.961, [0, psToRad(ps)], color, false, { lw: lw });
+  this.drawCircle(tele, 0.961, [0, psToRad(ps)], color, false, { lw: lw });
   }
   wacca.prototype.initCheck = async function(){
         (() => {
@@ -71,12 +71,12 @@ const waccaModule = (function() {
             debugDisplay.appendChild(e);
           }
           debugDisplay.querySelector('.console').innerText = 'Wacca Console : Success!';
-          debugDisplay.querySelector('.netWork').innerText = 'Network : initializing...';
+          //debugDisplay.querySelector('.netWork').innerText = 'Network : initializing...';
           this.main.displays[2].querySelector('.display').appendChild(debugDisplay);
         })();
         
-        mConsole.l('log init...', '%c%s', 'color:green', 'done.');
-        this.drawPbar()
+        mConsole.l('log init...', '%c%s', 'color:#7cfc00;', 'done.');
+        this.drawPbar(this.main.displays[3],5)
         await sleep(1000);
         mConsole.update = false;
         mConsole.l('begin checking...');
