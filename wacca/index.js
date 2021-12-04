@@ -1,4 +1,4 @@
-const waccaModule = (function() {
+const waccaModule = (function () {
   function wacca() {
     this.main = {
       root: null,
@@ -6,10 +6,10 @@ const waccaModule = (function() {
       displays: []
     }
   }
-  const psToRad = function(ps) {
+  const psToRad = function (ps) {
     return ps / 100 * 360;
   };
-  const degToRad = function(degrees) {
+  const degToRad = function (degrees) {
     return (degrees * (Math.PI / 180) - Math.PI / 2);
   };
   function sleep(ms) {
@@ -25,7 +25,7 @@ const waccaModule = (function() {
    * @param {Object} stroke stroke option obj.
    * @param {string} stroke.lw line width.
    */
-  wacca.prototype.drawCircle = function(tEle, size, deg = [0, 0], color, cw = false, stroke) {
+  wacca.prototype.drawCircle = function (tEle, size, deg = [0, 0], color, cw = false, stroke) {
     const canvas = tEle;
     const ctx = canvas.getContext("2d");
     const x = Math.floor(canvas.width / 2);
@@ -53,47 +53,50 @@ const waccaModule = (function() {
    * @param {string} color color string or hex vaule  
    * @param {*} lw linewidth 
    */
-  wacca.prototype.drawPbar = function(tele,ps, color, lw) {
+  wacca.prototype.drawPbar = function (tele, ps, color, lw) {
     ps = ps ? ps : 0;
     color = color ? color : '#7cfc00'; //lime color
-    lw = lw ? lw : 15;
+    lw = lw ? lw : 10;
 
-  this.drawCircle(tele, 0.961, [0, psToRad(ps)], color, false, { lw: lw });
-  }
-  wacca.prototype.initCheck = async function(){
-        (() => {
-          const debugDisplay = document.createElement('div');
-          debugDisplay.className = 'debugDispWrapper';
-          l = ['mConsole','console','netWork'];
-          for (i in l){
-            e = document.createElement('div');
-            e.className = l[i];
-            debugDisplay.appendChild(e);
-          }
-          debugDisplay.querySelector('.console').innerText = 'Wacca Console : Success!';
-          //debugDisplay.querySelector('.netWork').innerText = 'Network : initializing...';
-          this.main.displays[2].querySelector('.display').appendChild(debugDisplay);
-        })();
-        
-        mConsole.l('log init...', '%c%s', 'color:#7cfc00;', 'done.');
-        this.drawPbar(this.main.displays[3],5)
-        await sleep(1000);
-        mConsole.update = false;
-        mConsole.l('begin checking...');
-        
-       
+    this.drawCircle(tele, 0.975, [0, psToRad(ps)], color, false, { lw: lw });
   };
-  wacca.prototype.init = async function() {
+  wacca.prototype.genTouchArea = new touchModule().genTouchArea;
+  wacca.prototype.initCheck = async function () {
+    (() => {
+      const debugDisplay = document.createElement('div');
+      debugDisplay.className = 'debugDispWrapper';
+      l = ['mConsole', 'console', 'touch', 'netWork'];
+      for (i in l) {
+        e = document.createElement('div');
+        e.className = l[i];
+        debugDisplay.appendChild(e);
+      }
+      debugDisplay.querySelector('.console').innerText = 'Console : Success!';
+      debugDisplay.querySelector('.touch').innerText = 'Touch : initializing...';
+      debugDisplay.querySelector('.netWork').innerText = 'Network : initializing...';
+      this.main.displays[2].querySelector('.display').appendChild(debugDisplay);
+    })();
+    const debugDisplay = this.main.displays[2].querySelector('.display .debugDispWrapper');
+    mConsole.l('log init...', '%c%s', 'color:#7cfc00;', 'done.');
+    this.drawPbar(this.main.displays[3], 50)
+    await sleep(1000);
+    mConsole.update = false;
+    mConsole.l('begin checking...');
+    await sleep(1000);
+    debugDisplay.querySelector('.touch').innerText = 'Touch : Success!';
+
+  };
+  wacca.prototype.init = async function () {
     this.main.root = document.querySelector('body div.main');
-    let l = ['.outer', '.bg', '.displayWrap', '.gph', '.score', '.btns'];
+    let l = ['.outer', '.bg', '.displayWrap', '.gph', '.score', '.touchArea'];
     for (i in l) {
-      this.main.displays.push(this.main.root.querySelector(l[i]));
+      this.main.displays.push(document.querySelector(l[i]));
     }
     this.drawCircle(this.main.displays[0], 1, [0, 360]);
     const display = document.createElement('div');
     display.className = 'display';
     this.main.displays[2].appendChild(display);
-    
+    this.main.displays[5].innerHTML = this.genTouchArea(180, 10, 12, 30,4);
     this.initCheck();
   }
   return wacca;
