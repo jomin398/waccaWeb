@@ -15,61 +15,63 @@
 <body>
   <div class="touchArea"></div>
   <script type="text/javascript" charset="utf-8">
-    var RADIUS = 180;
-    var PADDING = 10;
-    var SLICES = 12;
-    var lineWidth = 30;
-    var innerRadius = RADIUS - lineWidth;
-    var svg = "";
+    const svgGen = (r, p, slices, lw) => {
+      var innerRadius = r - lw;
+      var svg = "";
 
-    for (var i = 0; i < SLICES; i++) {
-      var p1 = {
-        x: Math.cos(Math.PI * 2 / SLICES * i) * RADIUS + RADIUS + PADDING,
-        y: Math.sin(Math.PI * 2 / SLICES * i) * RADIUS + RADIUS + PADDING
-      };
+      for (var i = 0; i < slices; i++) {
+        var p1 = {
+          x: Math.cos(Math.PI * 2 / slices * i) * r + r + p,
+          y: Math.sin(Math.PI * 2 / slices * i) * r + r + p
+        };
 
-      var p2 = {
-        x: Math.cos(Math.PI * 2 / SLICES * (i + 1)) * RADIUS + RADIUS + PADDING,
-        y: Math.sin(Math.PI * 2 / SLICES * (i + 1)) * RADIUS + RADIUS + PADDING
-      };
+        var p2 = {
+          x: Math.cos(Math.PI * 2 / slices * (i + 1)) * r + r + p,
+          y: Math.sin(Math.PI * 2 / slices * (i + 1)) * r + r + p
+        };
 
-      var p4 = {
-        x: Math.cos(Math.PI * 2 / SLICES * i) * innerRadius + RADIUS + PADDING,
-        y: Math.sin(Math.PI * 2 / SLICES * i) * innerRadius + RADIUS + PADDING
-      };
+        var p4 = {
+          x: Math.cos(Math.PI * 2 / slices * i) * innerRadius + r + p,
+          y: Math.sin(Math.PI * 2 / slices * i) * innerRadius + r + p
+        };
 
-      var p3 = {
-        x: Math.cos(Math.PI * 2 / SLICES * (i + 1)) * innerRadius + RADIUS + PADDING,
-        y: Math.sin(Math.PI * 2 / SLICES * (i + 1)) * innerRadius + RADIUS + PADDING
-      };
+        var p3 = {
+          x: Math.cos(Math.PI * 2 / slices * (i + 1)) * innerRadius + r + p,
+          y: Math.sin(Math.PI * 2 / slices * (i + 1)) * innerRadius + r + p
+        };
 
 
-      //svg += "<path d='M " + (RADIUS + PADDING) + " " + (RADIUS + PADDING) + " L " + p3.x + " " + p3.y + " A " + innerRadius + " " + innerRadius + " 0 0 0 " + p4.x + " " + p4.y + " z' fill='green' stroke='white' onclick='alert(\"inner-" + i + "\")'/>";
+        //svg += "<path d='M " + (RADIUS + PADDING) + " " + (RADIUS + PADDING) + " L " + p3.x + " " + p3.y + " A " + innerRadius + " " + innerRadius + " 0 0 0 " + p4.x + " " + p4.y + " z' fill='green' stroke='white' onclick='alert(\"inner-" + i + "\")'/>";
 
-      //svg += "<path d='M " + p1.x + " " + p1.y + " A " + RADIUS + " " + RADIUS + " 0 0 1 " + p2.x + " " + p2.y + "  L " + p3.x + " " + p3.y + " A " + RADIUS / 2 + " " + RADIUS / 2 + " 0 0 0 " + p4.x + " " + p4.y + "  z' fill='green' stroke='white' onclick='alert(\"outer-" + i + "\")'/>";
-      svg += "<path d='M " + p1.x + " " + p1.y + " A " + RADIUS + " " + RADIUS + " 0 0 1 " + p2.x + " " + p2.y + "  L " + p3.x + " " + p3.y + " A " + innerRadius + " " + innerRadius + " 0 0 0 " + p4.x + " " + p4.y + "  z' fill='green' stroke='black' class='key' id='"+i+"'/>";
+        //svg += "<path d='M " + p1.x + " " + p1.y + " A " + RADIUS + " " + RADIUS + " 0 0 1 " + p2.x + " " + p2.y + "  L " + p3.x + " " + p3.y + " A " + RADIUS / 2 + " " + RADIUS / 2 + " 0 0 0 " + p4.x + " " + p4.y + "  z' fill='green' stroke='white' onclick='alert(\"outer-" + i + "\")'/>";
+        svg += "<path d='M " + p1.x + " " + p1.y + " A " + r + " " + r + " 0 0 1 " + p2.x + " " + p2.y + "  L " + p3.x + " " + p3.y + " A " + innerRadius + " " + innerRadius + " 0 0 0 " + p4.x + " " + p4.y + "  z' fill='green' stroke='black' class='key' id='" + i + "'/>";
 
 
+      }
+
+      svg = "<svg height='" + (r * 2 + p * 2) + "px' width='" + (r * 2 + p * 2) + "px'>" + svg + "</svg>";
+      return svg;
     }
-
-    svg = "<svg height='" + (RADIUS * 2 + PADDING * 2) + "px' width='" + (RADIUS * 2 + PADDING * 2) + "px'>" + svg + "</svg>";
-
-    document.querySelector('.touchArea').innerHTML = svg;
+    document.querySelector('.touchArea').innerHTML = svgGen(180, 10, 12, 30);
   </script>
   <script>
     var keys = [].slice.call(document.querySelectorAll('.key'), 0);
     var keyboard = document.querySelector('.touchArea');
     var touches = [];
+    var db = {
+      tst: null,
+      ted: null
+    };
 
     function isKey(key) {
       return keys.indexOf(key) >= 0;
     }
 
     function updateKeys() {
-      keys.forEach(function(key) {
+      keys.forEach(function (key) {
         key.classList.remove("down");
       });
-      touches.forEach(function(touch) {
+      touches.forEach(function (touch) {
         if (isKey(touch.key))
           touch.key.classList.add("down");
       });
@@ -89,7 +91,12 @@
       var changedTouches = evt.changedTouches;
       for (var i = 0; i < changedTouches.length; i++) {
         var key = changedTouches[i].target;
-        touches.push({ id: changedTouches[i].identifier, key: key,ownID:key.id });
+        var data = { id: changedTouches[i].identifier, key: key };
+        touches.push(data);
+        if (isKey(key)) {
+          console.log(data);
+          db.tst = data;
+        }
       }
       updateKeys();
     }
@@ -98,8 +105,14 @@
       evt.preventDefault();
       var changedTouches = evt.changedTouches;
       for (var i = 0; i < changedTouches.length; i++) {
+        var key = changedTouches[i].target;
         var index = getTouchIndex(changedTouches[i].identifier);
         if (index >= 0) {
+          if (isKey(key)) {
+            db.ted = { id: changedTouches[i].identifier, key: key };
+            console.log(db.ted.key.id, "=>", db.tst.key.id)
+          }
+
           touches.splice(index, 1);
         }
       }
@@ -116,7 +129,9 @@
           var key = document.elementFromPoint(touch.pageX, touch.pageY);
           if (isKey(key)) {
             touches[index].key = key;
+
           }
+          console.log(key.id)
         }
       }
 

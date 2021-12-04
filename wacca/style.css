@@ -1,3 +1,7 @@
+body{
+    background: url(./assets/pre/bg_repeat.png) repeat;
+}
+
 div.main {
     position: relative;
     display: flex;
@@ -20,6 +24,15 @@ div.main {
     border-radius: 50%;
     z-index: 2;
 }
+.main .score{
+    position: absolute;
+    z-index: 3;
+    top:0;
+    background-color: azure;
+    border:1px solid black;
+    width: 130px;
+    height: 30px;
+}
 
 .main .bg img {
     overflow: hidden;
@@ -36,7 +49,7 @@ div.main {
     width: 305px;
     height: 305px;
     /* overflow-y: scroll; */
-    z-index: 3;
+    z-index: 4;
 }
 
 .displayWrap .display {
@@ -63,12 +76,11 @@ div.main {
 .debugDispWrapper .mConsole.item {
     padding: 0;
 }
-
-.main .gph {
-    z-index: 4;
-}
-
 .main .btns {
     position: absolute;
     /* z-index: 6; */
+}
+
+.main .gph {
+    z-index: 6;
 }
