@@ -1,4 +1,4 @@
-body{
+body {
     background: url(./assets/pre/bg_repeat.png) repeat;
 }
 
@@ -69,21 +69,29 @@ div.main {
     float: initial;
     padding: 0;
 }
+
 .main .touchArea {
     position: absolute;
     z-index: 6;
 }
 
+.main .touchArea .key.down {
+    fill: #aae;
+}
+
 .main .gph {
     z-index: 5;
 }
-.sub{
+
+.sub {
     display: flex;
     justify-content: center;
 }
-.sub .score{
-    display: none; /*block*/
+
+.sub .score {
+    display: none;
+    /*block*/
     position: relative;
     background-color: azure;
-    border:1px solid black;
+    border: 1px solid black;
 }
