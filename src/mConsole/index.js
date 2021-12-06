@@ -5,10 +5,8 @@
    */
   const mConsole = (function() {
     let body = null;
-    /**
-     * @property {boolean} update set update log? default:true;
-     */
     let update = true;
+    let deb = true;
     const init = () => {
       body = document.querySelector('.mConsole');
     };
@@ -65,7 +63,9 @@
       }else if(!update){
         body.lastChild.innerHTML = temp.childNodes[0].innerHTML;
       }
-      console.log(r.join(''))
+      if(deb){
+        console.log(r.join(''));
+      }
     };
-    return { log, l: log, clear, c: clear, update};
+    return { log, l: log, clear, c: clear, update,deb};
   })();

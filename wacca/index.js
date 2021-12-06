@@ -20,8 +20,10 @@ const waccaModule = (function () {
   function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
   }
-
-  const tM = new touchModule()
+  function ucFirst(str) {
+    return str.replace(/^[a-z]/, function (m) { return m.toUpperCase() });
+  }
+  const tM = new touchModule();
   /**
    * 
    * @param {HTMLElement} tEle 
@@ -73,7 +75,7 @@ const waccaModule = (function () {
     (() => {
       const debugDisplay = document.createElement('div');
       debugDisplay.className = 'debugDispWrapper';
-      l = ['mConsole', 'console', 'touch', 'netWork'];
+      l = ['mConsole', 'console', 'touch', 'network'];
       for (i in l) {
         e = document.createElement('div');
         e.className = l[i];
@@ -85,6 +87,9 @@ const waccaModule = (function () {
             code = 'initializing...';
             break;
           case 1:
+            code = 'Waiting';
+            break;
+          case 2:
             code = 'Success!';
             break;
           default:
@@ -92,38 +97,44 @@ const waccaModule = (function () {
         }
         return code;
       }
-      this.main.status.console = 1;
       debugDisplay.querySelector('.console').innerText = 'Console : ' + getStatusMsg(0);
       debugDisplay.querySelector('.touch').innerText = 'Touch : ' + getStatusMsg(0);
-      debugDisplay.querySelector('.netWork').innerText = 'Network : ' + getStatusMsg(0);
+      debugDisplay.querySelector('.network').innerText = 'Network : ' + getStatusMsg(0);
       this.main.displays[2].querySelector('.display').appendChild(debugDisplay);
     })();
     const debugDisplay = this.main.displays[2].querySelector('.display .debugDispWrapper');
     mkm = (msg, bool) => {
       mConsole.l(msg ? msg : '', '%c%s', bool ? 'color:#7cfc00;' : 'color:#e80000', bool ? 'done.' : 'faild.');
-    }
-    mkm('log init...', true)
+    };
+    mkm('log init...', true);
     // mConsole.l('log init...', '%c%s', 'color:#7cfc00;', 'done.');
     this.drawPbar(this.main.displays[3], 2);
     await sleep(1000);
     mConsole.update = false;
     mConsole.l('begin checking...');
-    mConsole.l('Console check...');
-    await sleep(1000);
-    this.main.status.console = 1;
-    mkm('Console check...', this.main.status.console != 0)
-    debugDisplay.querySelector('.console').innerText = 'Console : ' + getStatusMsg(this.main.status.console);
-    this.drawPbar(this.main.displays[3], 5);
-    await sleep(2000);
-    mConsole.l('Touch check...');
-    await sleep(1000);
-    mkm('Touch cheack...', this.main.status.touch != 0)
-    debugDisplay.querySelector('.touch').innerText = 'Touch : ' + getStatusMsg(this.main.status.touch);
-    debugDisplay.querySelector('.netWork').innerText = 'Network : ' + getStatusMsg(this.main.status.network);
-    this.drawPbar(this.main.displays[3], 8);
-    await sleep(1000);
-    mConsole.l('NetWork check...');
-    debugDisplay.querySelector('.netWork').innerText = 'Network : Waiting';
+    l = ['console', 'touch', 'network'];
+    this.main.status.console = 2;
+    timer = null;
+    mConsole.deb = false;
+    timer = setInterval(async () => {
+      mConsole.l(getStatusMsg(0)+'...');
+      await sleep(1000);
+      mConsole.l('initializing');
+      await sleep(1000);
+      mConsole.l('initializing...');
+    }, 3000);
+    for (i in l) {
+      let t = ucFirst(l[i]);
+      let p = 5;
+      mConsole.l(t, ' check...');
+      await sleep(2000);
+      debugDisplay.querySelector('.' + l[i]).innerText = t + ' : ' + getStatusMsg(this.main.status[l[i]]);
+      if (i == 0) {
+        this.drawPbar(this.main.displays[3], p);
+      } else {
+        this.drawPbar(this.main.displays[3], p += 2);
+      }
+    }
   };
   wacca.prototype.btnTouchHandler = function (a, b) {
     if (a) {
@@ -145,7 +156,7 @@ const waccaModule = (function () {
     this.main.displays[2].appendChild(display);
     this.main.displays[5].innerHTML = this.genTouchArea(180, 10, 12, 30, 4);
     this.addTouchEvent(this.btnTouchHandler, () => {
-      this.main.status.touch = 1;
+      this.main.status.touch = 2;
     });
     this.initCheck();
   }
