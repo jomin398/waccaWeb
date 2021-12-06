@@ -1,7 +1,7 @@
 @import "./src/mConsole/style.css";
-@import "./wacca/style.css";
+@import "./wacca/css/style.css";
 
-body{
+body {
     margin: 0;
     padding: 0;
     position: relative;

@@ -79,14 +79,14 @@ const touchModule = (function () {
         ].join('');
         return svg;
     };
-    touch.prototype.appendEvent = function (cbf,finCbf) {
+    touch.prototype.appendEvent = function (cbf, finCbf) {
         var keys = [].slice.call(document.querySelectorAll('.touchArea .key'), 0);
         var keyboard = document.querySelector('.touchArea');
         var touches = [];
         var db = {
             tst: null,
             ted: null,
-            move:[]
+            move: []
         };
 
         function isKey(key) {
@@ -177,7 +177,7 @@ const touchModule = (function () {
         keyboard.addEventListener("touchstart", touchStart, false);
         keyboard.addEventListener("touchmove", touchMove, false);
         keyboard.addEventListener("touchend", touchEnd, false);
-        if(finCbf){
+        if (finCbf) {
             finCbf();
         }
     };

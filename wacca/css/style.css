@@ -1,0 +1,135 @@
+@import "./animation.css";
+
+body {
+    background: url(../assets/pre/bg_repeat.png) repeat;
+}
+
+div.main {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: black;
+}
+
+.main .outer {
+    position: absolute;
+    z-index: 0;
+}
+
+.main .bg {
+    position: absolute;
+    overflow: hidden;
+    background-color: #663399;
+    width: 300px;
+    height: 300px;
+    border-radius: 50%;
+    z-index: 2;
+}
+
+.main .bg img {
+    overflow: hidden;
+    width: calc(100% + 15%);
+    margin-top: 25px;
+    margin-left: -15px;
+}
+
+.main .displayWrap {
+    position: absolute;
+    display: flex;
+    background-color: unset;
+    border-radius: initial;
+    width: 305px;
+    height: 305px;
+    z-index: 3;
+}
+
+.displayWrap .display {
+    width: 100%;
+    position: relative;
+    margin: 50px;
+}
+
+.display .debugDispWrapper {
+    text-align: center;
+    position: absolute;
+    bottom: -15px;
+    left: -7px;
+    right: 0;
+    background-color: #800080B8;
+    font-weight: bolder;
+    color: #fff;
+    width: calc(100% - 1rem);
+    height: fit-content;
+    padding: 5px 14px;
+    font-size: 14px;
+    border-radius: 50px;
+}
+
+.debugDispWrapper .mConsole.item {
+    float: initial;
+    padding: 0;
+}
+
+.main .warnWrap {
+    display: none;
+    margin: 37% auto;
+    position: absolute;
+    width: 100%;
+    height: 80px;
+    background: linear-gradient(#ffd700de, #ffa500de);
+    z-index: 4;
+    overflow: hidden;
+    animation: slide_fadein 0.5s ease-in;
+}
+
+.warnWrap .warnContent {
+    color: gold;
+    text-align: center;
+    background-color: indigo;
+    width: 100%;
+    height: 75%;
+    display: flex;
+    margin: 3% auto;
+}
+
+.warnContent .content:nth-child(1) {
+    width: 80%;
+    font-size: 14px;
+    height: 100%;
+    text-align: center;
+    font-weight: bolder;
+}
+
+.warnContent .content:nth-child(2) {
+    width: 20%;
+}
+
+
+
+
+.main .gph {
+    z-index: 5;
+}
+
+.main .touchArea {
+    position: absolute;
+    z-index: 6;
+}
+
+.main .touchArea .key.down {
+    fill: #aae;
+}
+
+.sub {
+    display: flex;
+    justify-content: center;
+}
+
+.sub .score {
+    display: none;
+    /*block*/
+    position: relative;
+    background-color: azure;
+    border: 1px solid black;
+}

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="ko">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -11,24 +12,35 @@
     <script src="./wacca/index.js"></script>
     <script src="./src/main.js"></script>
 </head>
+
 <body>
-    <!-- <header>
-        <p>wacca web project</p>
-    </header> -->
+    <!-- Todo ref : https://youtu.be/sV9ltXFHUjU -->
     <div class="WaccaWrapper">
         <div class="main">
             <canvas class="outer" width="380" height="380"></canvas>
             <div class="bg">
                 <img src="./wacca/assets/pre/mainChr_p0.png">
             </div>
-            <div class="displayWrap"></div>
-            
-            <div class="touchArea"></div>
+            <div class="displayWrap">
+                <div class="warnWrap">
+                    <div class="warnContent">
+                        <div class="content">
+                            디바이스의 초기화를 실시합니다<br>
+                            Wacca 콘솔을 건들이지 않도록<br>
+                            주의하여 주십시오.
+                        </div>
+                        <div class="content"></div>
+                    </div>
+                </div>
+            </div>
+
             <canvas class="gph" width="380" height="380"></canvas>
+            <div class="touchArea"></div>
         </div>
         <div class="sub">
             <div class="score"></div>
         </div>
     </div>
 </body>
+
 </html>

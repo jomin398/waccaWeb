@@ -108,32 +108,22 @@ const waccaModule = (function () {
     await sleep(1000);
     mConsole.update = false;
     mConsole.l('begin checking...');
-    mConsole.l('Console cheack...');
+    mConsole.l('Console check...');
     await sleep(1000);
     this.main.status.console = 1;
-    mkm('Console cheack...', this.main.status.console != 0)
+    mkm('Console check...', this.main.status.console != 0)
     debugDisplay.querySelector('.console').innerText = 'Console : ' + getStatusMsg(this.main.status.console);
     this.drawPbar(this.main.displays[3], 5);
     await sleep(2000);
-    mConsole.l('Touch cheack...');
+    mConsole.l('Touch check...');
     await sleep(1000);
     mkm('Touch cheack...', this.main.status.touch != 0)
     debugDisplay.querySelector('.touch').innerText = 'Touch : ' + getStatusMsg(this.main.status.touch);
     debugDisplay.querySelector('.netWork').innerText = 'Network : ' + getStatusMsg(this.main.status.network);
     this.drawPbar(this.main.displays[3], 8);
     await sleep(1000);
-    mConsole.l('NetWork cheack...');
-    setInterval(async () => {
-
-      debugDisplay.querySelector('.netWork').innerText = 'Network : ' + getStatusMsg(this.main.status.network);
-
-      await sleep(1000);
-      debugDisplay.querySelector('.netWork').innerText = 'Network : ' + getStatusMsg(this.main.status.network) + '..';
-      await sleep(1000);
-
-      debugDisplay.querySelector('.netWork').innerText = 'Network : ' + getStatusMsg(this.main.status.network) + '.....';
-      
-    }, 3000);
+    mConsole.l('NetWork check...');
+    debugDisplay.querySelector('.netWork').innerText = 'Network : Waiting';
   };
   wacca.prototype.btnTouchHandler = function (a, b) {
     if (a) {
