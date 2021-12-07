@@ -67,5 +67,5 @@
         console.log(r.join(''));
       }
     };
-    return { log, l: log, clear, c: clear, update,deb};
+    return { log, l: log, clear, c: clear, setUpdate:(b)=>update=b,deb:(b)=>deb=b};
   })();
