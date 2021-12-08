@@ -8,10 +8,15 @@
     <title>Document</title>
     <style>
         .displayWrapper {
+            position: relative;
             margin: 50% auto;
             height: 380px;
             width: 380px;
             overflow: hidden;
+        }
+        .noteContiner{
+            position: absolute;
+            overflow:scroll;
         }
     </style>
 </head>
@@ -19,7 +24,6 @@
 <body>
     <div class="displayWrapper">
         <div class="noteContiner">
-            <div class="note"></div>
         </div>
     </div>
     <script>
@@ -50,10 +54,10 @@
                     x: Math.cos(Math.PI * 2 / slices * (i + 1)) * innerRadius + r + p,
                     y: Math.sin(Math.PI * 2 / slices * (i + 1)) * innerRadius + r + p
                 };
-                s = " display ='none'";
+                s = " display='none'";
                 if (show) {
-                    if (typeof show == 'array') {
-                        if (show.indexOf(i) != -1) {
+                    if (Array.isArray(show)) {
+                        if (show.includes(i)) {
                             s = "";
                         }
                     } else if (typeof show == 'boolean' & show == true) {
@@ -68,8 +72,7 @@
                     innerRadius + " " + innerRadius + " 0 0 0 ",
                     p4.x + " " + p4.y + " z",
                     "' fill='green' stroke='black' class='key' ",
-                    "id='" + i + "'",
-                    s,
+                    "id='" + i + "' " + s,
                     "/>"
                 ].join('');
             };
@@ -84,7 +87,21 @@
             ].join('');
             return svg;
         };
-        document.querySelector('.noteContiner').innerHTML = genTouchArea(180, 10, 12, 30, null, null, [1, 3, 5, 7])
+
+        function noteRenderer(arr) {
+            for (i in arr) {
+                div = document.createElement('div');
+                div.className = 'note';
+                div.innerHTML = genTouchArea(180, 10, 12, 30,0,0,arr[i]);
+                document.querySelector('.noteContiner').appendChild(div);
+            }
+        }
+        const noteData = [
+            [1, 2, 3, 4],
+            [1, 2],
+            [3, 4, 5]
+        ]
+        noteRenderer(noteData)
     </script>
 </body>
 
