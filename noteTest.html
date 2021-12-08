@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .displayWrapper {
+            margin: 50% auto;
+            height: 380px;
+            width: 380px;
+            overflow: hidden;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="displayWrapper">
+        <div class="noteContiner">
+            <div class="note"></div>
+        </div>
+    </div>
+    <script>
+        function genTouchArea(r, p, slices, lw, hm, wm, show) {
+            var innerRadius = r - lw;
+            var style = [
+            ].join('');
+            var svg = "";
+
+            for (var i = 0; i < slices; i++) {
+
+                var p1 = {
+                    x: Math.cos(Math.PI * 2 / slices * i) * r + r + p,
+                    y: Math.sin(Math.PI * 2 / slices * i) * r + r + p
+                };
+
+                var p2 = {
+                    x: Math.cos(Math.PI * 2 / slices * (i + 1)) * r + r + p,
+                    y: Math.sin(Math.PI * 2 / slices * (i + 1)) * r + r + p
+                };
+
+                var p4 = {
+                    x: Math.cos(Math.PI * 2 / slices * i) * innerRadius + r + p,
+                    y: Math.sin(Math.PI * 2 / slices * i) * innerRadius + r + p
+                };
+
+                var p3 = {
+                    x: Math.cos(Math.PI * 2 / slices * (i + 1)) * innerRadius + r + p,
+                    y: Math.sin(Math.PI * 2 / slices * (i + 1)) * innerRadius + r + p
+                };
+                s = " display ='none'";
+                if (show) {
+                    if (typeof show == 'array') {
+                        if (show.indexOf(i) != -1) {
+                            s = "";
+                        }
+                    } else if (typeof show == 'boolean' & show == true) {
+                        s = "";
+                    }
+                }
+                svg += [
+                    "<path d='M ",
+                    p1.x + " " + p1.y + " A " + r + " " + r + " 0 0 1 ",
+                    p2.x + " " + p2.y + " L ",
+                    p3.x + " " + p3.y + " A ",
+                    innerRadius + " " + innerRadius + " 0 0 0 ",
+                    p4.x + " " + p4.y + " z",
+                    "' fill='green' stroke='black' class='key' ",
+                    "id='" + i + "'",
+                    s,
+                    "/>"
+                ].join('');
+            };
+
+            svg = [
+                "<svg height='",
+                (r * 2 + p * 2) - (hm ? hm : 0),
+                "px' width='",
+                (r * 2 + p * 2) - (wm ? wm : 0),
+                "px'>" + style + svg,
+                "</svg>"
+            ].join('');
+            return svg;
+        };
+        document.querySelector('.noteContiner').innerHTML = genTouchArea(180, 10, 12, 30, null, null, [1, 3, 5, 7])
+    </script>
+</body>
+
+</html>
