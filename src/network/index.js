@@ -1,11 +1,11 @@
-const network=(()=>{
-  function network(){
-    this.status=0
+const networkModule = (() => {
+  function network() {
+    this.status = 0
   };
-  network.prototype.init = async (callback)=>{
-    if(callback) callback(true);
+  network.prototype.init = async (callback) => {
+    if (callback) callback(true);
   };
-  network.prototype.request=(obj)=>{
+  network.prototype.request = (obj) => {
     return new Promise((resolve, reject) => {
       let xhr = new XMLHttpRequest();
       xhr.open(obj.method || "GET", obj.url);

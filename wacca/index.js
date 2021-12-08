@@ -26,6 +26,7 @@ const waccaModule = (function() {
     return str.replace(/^[a-z]/, function(m) { return m.toUpperCase() });
   }
   const tM = new touchModule();
+  const network = new networkModule();
   const getStatusMsg = (code) => {
     switch (code) {
       case 0:

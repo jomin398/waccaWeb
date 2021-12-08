@@ -60,12 +60,12 @@
       if (update) {
         body.appendChild(temp.childNodes[0]);
         scrToBottom();
-      }else if(!update){
+      } else if (!update) {
         body.lastChild.innerHTML = temp.childNodes[0].innerHTML;
       }
-      if(deb){
+      if (deb) {
         console.log(r.join(''));
       }
     };
-    return { log, l: log, clear, c: clear, setUpdate:(b)=>update=b,deb:(b)=>deb=b};
+    return { log, l: log, clear, c: clear, setUpdate: (b) => update = b, deb: (b) => deb = b };
   })();

@@ -68,10 +68,10 @@
     }
 
     function updateKeys() {
-      keys.forEach(function (key) {
+      keys.forEach(function(key) {
         key.classList.remove("down");
       });
-      touches.forEach(function (touch) {
+      touches.forEach(function(touch) {
         if (isKey(touch.key))
           touch.key.classList.add("down");
       });
