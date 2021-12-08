@@ -7,16 +7,36 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <style>
+        body {
+            display: flex;
+            justify-content: center;
+        }
+
         .displayWrapper {
             position: relative;
-            margin: 50% auto;
             height: 380px;
             width: 380px;
             overflow: hidden;
         }
-        .noteContiner{
+
+        .noteContiner {
             position: absolute;
-            overflow:scroll;
+            overflow-y: scroll;
+            max-height: 380px;
+        }
+
+        @keyframes zoomin {
+            from {
+                transform: scale(0);
+            }
+
+            to {
+                transform: scale(1);
+            }
+        }
+
+        .note#show {
+            animation: zoomin 0.3s ease-in;
         }
     </style>
 </head>
@@ -60,6 +80,10 @@
                         if (show.includes(i)) {
                             s = "";
                         }
+                    } else if (typeof show != 'boolean') {
+                        if (show == i) {
+                            s = "";
+                        }
                     } else if (typeof show == 'boolean' & show == true) {
                         s = "";
                     }
@@ -87,21 +111,50 @@
             ].join('');
             return svg;
         };
+        function sleep(ms) {
+            return new Promise(resolve => setTimeout(resolve, ms));
+        };
+        const noteData = [
+            [1, 4],
+            2, 3, 4,
+            2, 3, 4
+        ];
 
         function noteRenderer(arr) {
-            for (i in arr) {
-                div = document.createElement('div');
-                div.className = 'note';
-                div.innerHTML = genTouchArea(180, 10, 12, 30,0,0,arr[i]);
-                document.querySelector('.noteContiner').appendChild(div);
+            if (arr) {
+                arr = arr.filter(e => typeof e != 'string');
+                console.log(arr)
+                for (i in arr) {
+                    div = document.createElement('div');
+                    div.className = 'note';
+                    div.innerHTML = genTouchArea(180, 10, 12, 5, 0, 0, arr[i]);
+                    document.querySelector('.noteContiner').appendChild(div);
+                }
             }
         }
-        const noteData = [
-            [1, 2, 3, 4],
-            [1, 2],
-            [3, 4, 5]
-        ]
-        noteRenderer(noteData)
+
+        function bpmToms(bpm) {
+            return Math.ceil(6e4 / bpm);
+        }
+        noteRenderer(noteData);
+        const bpm = 132;
+        const aniOffsetTime = 600; //ms
+        const noteInterval = Number(bpmToms(bpm));
+        (async () => {
+            for (i = 0, e = noteData; i < e.length + 1; i++) {
+                await sleep(noteInterval)
+                if (["sl1", "sl2", "sl4", "sl8", "sl16", "sl32", "sl64"].includes(e[i])) {
+                    console.log(i)
+                    await sleep(e[i].replace('sl', ''))
+                } else {
+                    if (i != 0) {
+                        document.querySelector('.note:nth-child(' + i + ')').scrollIntoView();
+                        document.querySelector('.note:nth-child(' + i + ')').id = 'show';
+                    }
+                }
+            }
+        })();
+
     </script>
 </body>
 
