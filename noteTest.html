@@ -2,93 +2,95 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <style>
-        body {
-            display: flex;
-            justify-content: center;
-        }
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    body {
+      display: flex;
+      justify-content: center;
+    }
 
-        .displayWrapper {
-            position: relative;
-            height: 380px;
-            width: 380px;
-            overflow: hidden;
-        }
+    .displayWrapper {
+      position: relative;
+      height: 380px;
+      width: 380px;
+      overflow: hidden;
+    }
 
-        .noteContiner {
-            position: absolute;
-            overflow-y: scroll;
-            max-height: 380px;
-        }
+    .noteContiner {
+      display: none;
+      position: absolute;
+      overflow-y: scroll;
+      max-height: 380px;
+    }
 
-        @keyframes zoomin {
-            from {
-                transform: scale(0);
-            }
+    @keyframes zoomin {
+      from {
+        transform: scale(0);
+      }
 
-            to {
-                transform: scale(1);
-            }
-        }
+      to {
+        transform: scale(1);
+      }
+    }
 
-        .note#show {
-            animation: zoomin 0.3s ease-in;
-        }
-    </style>
+    .note#show {
+      animation: zoomin 0.3s ease-in;
+    }
+  </style>
 </head>
 
 <body>
-    <div class="displayWrapper">
-        <div class="noteContiner">
-        </div>
+  <div class="displayWrapper">
+    <button class="start">start</button>
+    <div class="noteContiner">
     </div>
-    <script>
-        function genTouchArea(r, p, slices, lw, hm, wm, show) {
-            var innerRadius = r - lw;
-            var style = [
+  </div>
+  <script>
+    function genTouchArea(r, p, slices, lw, hm, wm, show) {
+      var innerRadius = r - lw;
+      var style = [
             ].join('');
-            var svg = "";
+      var svg = "";
 
-            for (var i = 0; i < slices; i++) {
+      for (var i = 0; i < slices; i++) {
 
-                var p1 = {
-                    x: Math.cos(Math.PI * 2 / slices * i) * r + r + p,
-                    y: Math.sin(Math.PI * 2 / slices * i) * r + r + p
-                };
+        var p1 = {
+          x: Math.cos(Math.PI * 2 / slices * i) * r + r + p,
+          y: Math.sin(Math.PI * 2 / slices * i) * r + r + p
+        };
 
-                var p2 = {
-                    x: Math.cos(Math.PI * 2 / slices * (i + 1)) * r + r + p,
-                    y: Math.sin(Math.PI * 2 / slices * (i + 1)) * r + r + p
-                };
+        var p2 = {
+          x: Math.cos(Math.PI * 2 / slices * (i + 1)) * r + r + p,
+          y: Math.sin(Math.PI * 2 / slices * (i + 1)) * r + r + p
+        };
 
-                var p4 = {
-                    x: Math.cos(Math.PI * 2 / slices * i) * innerRadius + r + p,
-                    y: Math.sin(Math.PI * 2 / slices * i) * innerRadius + r + p
-                };
+        var p4 = {
+          x: Math.cos(Math.PI * 2 / slices * i) * innerRadius + r + p,
+          y: Math.sin(Math.PI * 2 / slices * i) * innerRadius + r + p
+        };
 
-                var p3 = {
-                    x: Math.cos(Math.PI * 2 / slices * (i + 1)) * innerRadius + r + p,
-                    y: Math.sin(Math.PI * 2 / slices * (i + 1)) * innerRadius + r + p
-                };
-                s = " display='none'";
-                if (show) {
-                    if (Array.isArray(show)) {
-                        if (show.includes(i)) {
-                            s = "";
-                        }
-                    } else if (typeof show != 'boolean') {
-                        if (show == i) {
-                            s = "";
-                        }
-                    } else if (typeof show == 'boolean' & show == true) {
-                        s = "";
-                    }
-                }
-                svg += [
+        var p3 = {
+          x: Math.cos(Math.PI * 2 / slices * (i + 1)) * innerRadius + r + p,
+          y: Math.sin(Math.PI * 2 / slices * (i + 1)) * innerRadius + r + p
+        };
+        s = " display='none'";
+        if (show) {
+          if (Array.isArray(show)) {
+            if (show.includes(i)) {
+              s = "";
+            }
+          } else if (typeof show != 'boolean') {
+            if (show == i) {
+              s = "";
+            }
+          } else if (typeof show == 'boolean' & show == true) {
+            s = "";
+          }
+        }
+        svg += [
                     "<path d='M ",
                     p1.x + " " + p1.y + " A " + r + " " + r + " 0 0 1 ",
                     p2.x + " " + p2.y + " L ",
@@ -99,9 +101,9 @@
                     "id='" + i + "' " + s,
                     "/>"
                 ].join('');
-            };
+      };
 
-            svg = [
+      svg = [
                 "<svg height='",
                 (r * 2 + p * 2) - (hm ? hm : 0),
                 "px' width='",
@@ -109,53 +111,85 @@
                 "px'>" + style + svg,
                 "</svg>"
             ].join('');
-            return svg;
-        };
-        function sleep(ms) {
-            return new Promise(resolve => setTimeout(resolve, ms));
-        };
-        const noteData = [
+      return svg;
+    };
+
+    function sleep(ms) {
+      return new Promise(resolve => setTimeout(resolve, ms));
+    };
+    const noteData = [
             [1, 4],
             2, 3, 4,
-            2, 3, 4
+            2, 3, 4,
+            [5,7],
+            8,9,
+            [10,11]
         ];
 
-        function noteRenderer(arr) {
-            if (arr) {
-                arr = arr.filter(e => typeof e != 'string');
-                console.log(arr)
-                for (i in arr) {
-                    div = document.createElement('div');
-                    div.className = 'note';
-                    div.innerHTML = genTouchArea(180, 10, 12, 5, 0, 0, arr[i]);
-                    document.querySelector('.noteContiner').appendChild(div);
-                }
-            }
+    function noteRenderer(arr) {
+      if (arr) {
+        arr = arr.filter(e => typeof e != 'string');
+        console.log(arr)
+        for (i in arr) {
+          div = document.createElement('div');
+          div.className = 'note';
+          div.innerHTML = genTouchArea(180, 10, 12, 10, 0, 0, arr[i]);
+          document.querySelector('.noteContiner').appendChild(div);
         }
+      }
+    }
 
-        function bpmToms(bpm) {
-            return Math.ceil(6e4 / bpm);
+    /**
+     * @param {number} bpm beat per minute.
+     * @returns {number} ms a milliseconds for time
+     */
+    function bpmToms(bpm) {
+      return Math.ceil(6e4 / bpm);
+    }
+    noteRenderer(noteData);
+    const bpm = 132;
+    const noteInterval = Number(bpmToms(bpm));
+    const notePlayFinsh = () => {
+      document.querySelector('.noteContiner').style.display = 'none';
+      document.querySelector('.noteContiner').innerHTML = '';
+      document.querySelector('button.start').innerText = 'page reload';
+      document.querySelector('button.start').onclick = () => location.reload();
+      document.querySelector('button.start').style.display = 'block';
+    };
+
+    /**
+     * @async
+     * @function notePlay
+     * @callback notePlayFinish
+     * @param {notePlayFinish} resolve fires on note lane is finished.
+     */
+    async function notePlay(resolve) {
+      const button = document.querySelector('button.start');
+      button.style.display = 'none';
+      let e = noteData;
+      await sleep(3000);
+      for (i = 0; i < e.length + 1; i++) {
+        //sl = sleep;
+        if (["sl1", "sl2", "sl4", "sl8", "sl16", "sl32", "sl64"].includes(e[i])) {
+          console.log(i);
+          let n = Number(e[i].replace('sl', ''));
+          await sleep(Math.ceil(n < 4 ? noteInterval * n : bpm / n));
+        } else {
+          if (i != 0) {
+            document.querySelector('.note:nth-child(' + i + ')').scrollIntoView();
+            document.querySelector('.noteContiner').style.display = 'block';
+            document.querySelector('.note:nth-child(' + i + ')').id = 'show';
+          }
         }
-        noteRenderer(noteData);
-        const bpm = 132;
-        const aniOffsetTime = 600; //ms
-        const noteInterval = Number(bpmToms(bpm));
-        (async () => {
-            for (i = 0, e = noteData; i < e.length + 1; i++) {
-                await sleep(noteInterval)
-                if (["sl1", "sl2", "sl4", "sl8", "sl16", "sl32", "sl64"].includes(e[i])) {
-                    console.log(i)
-                    await sleep(e[i].replace('sl', ''))
-                } else {
-                    if (i != 0) {
-                        document.querySelector('.note:nth-child(' + i + ')').scrollIntoView();
-                        document.querySelector('.note:nth-child(' + i + ')').id = 'show';
-                    }
-                }
-            }
-        })();
-
-    </script>
+        await sleep(noteInterval)
+      }
+      // call back function;
+      if (resolve) {
+        resolve()
+      }
+    };
+    document.querySelector('button.start').onclick = () => notePlay(notePlayFinsh);
+  </script>
 </body>
 
 </html>
